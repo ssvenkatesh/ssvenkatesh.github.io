@@ -2,7 +2,9 @@ excerpt_separator: ""
 pygments: true
 markdown: kramdown
 url: http://ssvenkatesh.github.io
-title: S S Venkatesh
+title: Venkat 
+email: ssvenkatesh@gmail.com
+author: S S Venkatesh
 tagline: The Big Bang
-description: HI, I am venkat
+description: 
 paginate: 5
