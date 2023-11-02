@@ -1,17 +1,18 @@
 ---
-published: false
-title: SEH Exception
+
+title: How Exceptions are implemented in Windows?
+date:   2016-08-06 21:45:15 +0530
 layout: post
-tags: [Exception, ]
+tags: [Exception,Windows, C++ ]
 ---
 
 An exception is an event that occurs during the execution of a program, and requires the execution of code outside the normal flow of control.
 
-OS(Windows) provides a mechanism to handle exceptions known as Structured Exception Handling (SEH). SEH is a mechanism used to handle, and possibly resolve exceptions.  It is used both in User Mode and Kernel mode code.
+OS(Windows) provides a mechanism to handle exceptions known as Structured Exception Handling (`SEH`). `SEH` is a mechanism used to handle, and possibly resolve exceptions.  It is used both in User Mode and Kernel mode code.
 
-SEH Exceptions, in turn, can be separated into two categories:  Hardware and Software Exceptions.
+`SEH` Exceptions, in turn, can be separated into two categories: Hardware and Software Exceptions.
 
-• Hardware Exceptions: Exceptions that are raised in response to process interrupt.  Example of Hardware exceptions are Divide by Zero, Invalid Memory Access.  [Hardware Exceptions](https://msdn.microsoft.com/en-us/library/w49wew4f.aspx "Hardware Exceptions")
+**• Hardware Exceptions:** Exceptions that are raised in response to process interrupt.  Example of Hardware exceptions are Divide by Zero, Invalid Memory Access.  [Hardware Exceptions](https://msdn.microsoft.com/en-us/library/w49wew4f.aspx "Hardware Exceptions")
 Note: Debuggers use hardware exceptions to implement breakpoints and single steeping the target.
 
 Exceptions are connected to handlers using Interrupt Dispatch Table (IDT). Entries in the IDT are shown below. Each entry in the table corresponds to a hardware interrupts and handler. Interrupt 3 is a debugging breakpoint interrupt and BreakPointHander is invoked.
@@ -41,23 +42,24 @@ Exceptions are connected to handlers using Interrupt Dispatch Table (IDT). Entri
     11:   8464fb34 nt!KiTrap11
 ```
 
-• Software  Exceptions: Software Exceptions are triggered by an explicit call to RaiseExcption Win32 API. A C++ throw exception is translated by the compiler into a call implemented in the C runtime library, which finally invokes RaiseException.  
+**• Software  Exceptions:** Software Exceptions are triggered by an explicit call to RaiseExcption Win32 API. A C++ throw exception is translated by the compiler into a call implemented in the C runtime library, which finally invokes RaiseException.  
 
 
-```cpp
+{% highlight cpp %}
 void foo()
 {
-	thorw;
+	throw;
 }
 int _tmain(int argc, _TCHAR* argv[])
 {
 	foo();
 	return 0;
 }
-```
-Stack frame of throw exception in Windebug.
-```
+{% endhighlight %}
 
+
+**Stack frame of software exception in Windebug**
+```
 0:000> k
 ChildEBP RetAddr  
 008af840 511b0b86 KERNELBASE!RaiseException+0x48
@@ -72,7 +74,9 @@ ChildEBP RetAddr
 ```
 
 
-SEH Exceptions and their structures are used to implement  try, catch and finally blocks in your code. Unlike C++ exceptions and .NET Exceptions, which can be raised with any type, SEH exceptions deal with only one type.  i.ie., unsigned int. ( Exception codes by OS). Language-level or framework-level exceptions, such as the C++ , Java,  .NET / Common Language Runtime (CLR) exception use SEH to implement for their application-level exception handling mechanisms internally. 
+`SEH` Exceptions and their structures are used to implement  try, catch and finally blocks in your code. Unlike C++ exceptions and .NET Exceptions, which can be raised with any type, `SEH` exceptions deal with only one type.  i.ie., unsigned int. ( Exception codes by OS).
+
+Language-level or framework-level exceptions, such as the C++ , Java,  .NET / Common Language Runtime (CLR) exception use `SEH` to implement for their application-level exception handling mechanisms internally. 
 
 
 
