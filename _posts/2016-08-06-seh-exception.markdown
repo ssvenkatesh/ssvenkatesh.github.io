@@ -1,6 +1,6 @@
 ---
 
-title: How Exceptions are implemented in Windows?
+title: How Exceptions are implemented?
 date:   2016-08-06 21:45:15 +0530
 layout: post
 tags: [Exception,Windows, C++ ]

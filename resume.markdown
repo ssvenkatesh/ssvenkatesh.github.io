@@ -4,6 +4,8 @@ title: Resume
 permalink: /resume/
 ---
 
+
+
 ## Experience
 
 ### Specialist, KLA
